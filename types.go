@@ -369,6 +369,9 @@ type Config struct { // nolint:maligned
 	//
 	// NetHttpFormValueFunc gives a FormValueFunc func implementation that is consistent with net/http.
 	FormValueFunc fasthttp.FormValueFunc
+
+	// BeforeHandler Function to modify ctx before starting path handling.
+	BeforeHandler func(ctx *fasthttp.RequestCtx)
 }
 
 // StaticFS represents settings for serving static files

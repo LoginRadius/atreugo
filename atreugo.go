@@ -121,6 +121,13 @@ func newFasthttpServer(cfg Config) *fasthttp.Server {
 func (s *Atreugo) handler() fasthttp.RequestHandler {
 	handler := s.router.Handler
 
+	if s.cfg.BeforeHandler != nil {
+		handler = func(ctx *fasthttp.RequestCtx) {
+			s.cfg.BeforeHandler(ctx)
+			s.router.Handler(ctx)
+		}
+	}
+
 	if len(s.virtualHosts) > 0 {
 		handler = func(ctx *fasthttp.RequestCtx) {
 			hostname := strconv.B2S(ctx.URI().Host())
